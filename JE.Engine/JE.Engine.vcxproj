@@ -12,11 +12,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Je.h" />
+    <ClInclude Include="src\Jepch.h" />
     <ClInclude Include="src\Je\Application.h" />
     <ClInclude Include="src\Je\Core.h" />
     <ClInclude Include="src\Je\EntryPoint.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Jepch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\Je\Application.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -65,6 +69,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>JE_PLATFORM_WIN;JE_BUILD;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>Jepch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>src;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

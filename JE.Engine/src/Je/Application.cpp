@@ -1,3 +1,4 @@
+#include "Jepch.h"
 #include "Application.h"
 
 namespace Je
@@ -12,6 +13,7 @@ namespace Je
 
 	void Application::Run()
 	{
+		std::cout << "Application is running!" << std::endl;
 		while (true);
 	}
 }
