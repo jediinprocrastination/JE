@@ -16,12 +16,16 @@
     <ClInclude Include="src\Je\Application.h" />
     <ClInclude Include="src\Je\Core.h" />
     <ClInclude Include="src\Je\EntryPoint.h" />
+    <ClInclude Include="src\Je\Window.h" />
+    <ClInclude Include="src\Platform\Win\WinWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Jepch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Je\Application.cpp" />
+    <ClCompile Include="src\Je\Window.cpp" />
+    <ClCompile Include="src\Platform\Win\WinWindow.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

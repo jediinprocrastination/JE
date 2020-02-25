@@ -1,5 +1,6 @@
 #include "Jepch.h"
 #include "Application.h"
+#include "Window.h"
 
 namespace Je
 {
@@ -13,7 +14,11 @@ namespace Je
 
 	void Application::Run()
 	{
-		std::cout << "Application is running!" << std::endl;
-		while (true);
+		auto win = std::unique_ptr<Window>(Je::Window::Create());
+
+		while (true)
+		{
+			win->OnUpdate();
+		}
 	}
 }
