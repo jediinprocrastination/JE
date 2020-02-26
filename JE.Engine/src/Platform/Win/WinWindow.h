@@ -30,5 +30,6 @@ namespace Je
 		};
 
 		WinData _data;
+		HWND _hwnd;
 	};
 }
