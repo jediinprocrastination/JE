@@ -3,7 +3,7 @@
 
 namespace Pg
 {
-	class Playground : public Je::Application
+	class Playground final : public Je::Application
 	{
 	};
 }

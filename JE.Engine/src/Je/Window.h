@@ -24,7 +24,7 @@ namespace Je
 	class JE_API Window
 	{
 	public:
-		virtual ~Window() {}
+		virtual ~Window() = default;
 		virtual void OnUpdate() = 0;
 		virtual unsigned int GetHeight() = 0;
 		virtual unsigned int GetWidth() = 0;

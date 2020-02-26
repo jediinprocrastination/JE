@@ -4,7 +4,7 @@
 
 #ifdef JE_PLATFORM_WIN
 
-extern Je::Application* Je::CreateApplication();
+//extern Je::Application* Je::CreateApplication();
 
 int main(int argc, char** argv)
 {

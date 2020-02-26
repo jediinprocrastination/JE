@@ -14,7 +14,7 @@ namespace Je
 
 	void Application::Run()
 	{
-		auto win = std::unique_ptr<Window>(Je::Window::Create());
+		auto win = std::unique_ptr<Window>(Window::Create());
 
 		while (true)
 		{
