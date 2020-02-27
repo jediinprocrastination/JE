@@ -2,6 +2,7 @@
 
 #include "Jepch.h"
 #include "Core.h"
+#include "Events/Event.h"
 
 namespace Je
 {
@@ -24,6 +25,9 @@ namespace Je
 	class JE_API Window
 	{
 	public:
+
+		using EventCallbackFn = std::function<void(Event&)>;
+
 		virtual ~Window() = default;
 		virtual void OnUpdate() = 0;
 		virtual unsigned int GetHeight() = 0;
@@ -31,6 +35,7 @@ namespace Je
 
 		virtual void SetVSync(bool enabled) = 0;
 		virtual bool IsVSync() const = 0;
+		virtual void SetCallback(const EventCallbackFn& callback) = 0;
 
 		static Window* Create(const WindowProperties& properties = WindowProperties());
 	};

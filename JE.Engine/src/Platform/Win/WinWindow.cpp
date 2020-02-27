@@ -8,6 +8,10 @@ namespace Je
 	WinWindow::WinWindow(const WindowProperties& properties)
 	{
 		_hwnd = nullptr;
+		_state = new WinState();
+		_state->SetCallback([]() 
+		{
+		});
 
 		_data.Title = properties.Title;
 		_data.Height = properties.Height;
@@ -47,13 +51,10 @@ namespace Je
 			/* HWND hWndParent      */ NULL,
 			/* HMENU hMenu          */ NULL,
 			/* HINSTANCE hInstance  */ hInstance,
-			/* LPVOID lpParam       */ NULL);
+			/* LPVOID lpParam       */ _state);
 
-		if (_hwnd != NULL)
-		{
-			ShowWindow(_hwnd, 1);
-			UpdateWindow(_hwnd);
-		}
+		ShowWindow(_hwnd, 1);
+		UpdateWindow(_hwnd);
 	}
 
 	void WinWindow::OnUpdate()
@@ -80,10 +81,36 @@ namespace Je
 	{
 	}
 
+	void WinWindow::OnWindowCallback(const UINT umsg)
+	{
+	}
+
+	inline WinState* GetAppState(HWND hwnd)
+	{
+		LONG_PTR ptr = GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		WinState* state = reinterpret_cast<WinState*>(ptr);
+
+		return state;
+	}
+
 	LRESULT CALLBACK WndProc(
 		HWND hwnd, const UINT umsg, const 
 		WPARAM wparam, const LPARAM lparam)
 	{
+		WinState* state;
+
+		if (umsg == WM_CREATE)
+		{
+			CREATESTRUCT* pCreate = reinterpret_cast<CREATESTRUCT*>(lparam);
+			state = reinterpret_cast<WinState*>(pCreate->lpCreateParams);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)state);
+		}
+		else
+		{
+			state = GetAppState(hwnd);
+			state->WndProcCallback();
+		}
+
 		switch (umsg)
 		{
 		case WM_QUIT:

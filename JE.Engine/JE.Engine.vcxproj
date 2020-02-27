@@ -16,6 +16,7 @@
     <ClInclude Include="src\Je\Application.h" />
     <ClInclude Include="src\Je\Core.h" />
     <ClInclude Include="src\Je\EntryPoint.h" />
+    <ClInclude Include="src\Je\Events\Event.h" />
     <ClInclude Include="src\Je\Window.h" />
     <ClInclude Include="src\Platform\Win\WinWindow.h" />
   </ItemGroup>

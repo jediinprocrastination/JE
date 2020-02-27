@@ -6,7 +6,15 @@
 namespace Je
 {
 	LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-	
+
+	struct WinState 
+	{
+		using WindowCallback = std::function<void()>;
+
+		WindowCallback WndProcCallback;
+		void SetCallback(const WindowCallback callback) { WndProcCallback = callback; }
+	};
+
 	class WinWindow : public Window
 	{
 	public:
@@ -17,10 +25,12 @@ namespace Je
 		unsigned int GetWidth() override { return _data.Width; }
 		void SetVSync(const bool enabled) override { _data.VSync = enabled; }
 		bool IsVSync() const override { return _data.VSync; }
+		void SetCallback(const EventCallbackFn& callback) override { _data.EventCallback = callback; }
 	
 	protected:
 		virtual void Init();
 		virtual void Shutdown();
+		virtual void OnWindowCallback(const UINT umsg);
 	
 	private:
 
@@ -29,9 +39,11 @@ namespace Je
 			std::string Title;
 			unsigned int Height, Width;
 			bool VSync;
+			EventCallbackFn EventCallback;
 		};
 
 		WinData _data;
+		WinState *_state;
 		HWND _hwnd;
 	};
 }
