@@ -7,7 +7,13 @@ namespace Je
 {
 	WinWindow::WinWindow(const WindowProperties& properties)
 	{
-		WinWindow::Init(properties);
+		_hwnd = nullptr;
+
+		_data.Title = properties.Title;
+		_data.Height = properties.Height;
+		_data.Width = properties.Width;
+
+		WinWindow::Init();
 	}
 	
 	WinWindow::~WinWindow()
@@ -15,14 +21,8 @@ namespace Je
 		WinWindow::Shutdown();
 	}
 
-	LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-
-	void WinWindow::Init(const WindowProperties& properties)
+	void WinWindow::Init()
 	{
-		_data.Title = properties.Title;
-		_data.Height = properties.Height;
-		_data.Width = properties.Width;
-
 		auto title = std::wstring(_data.Title.begin(), _data.Title.end());
 		wchar_t CLASS_NAME[] = L"The win window class";
 
@@ -80,17 +80,18 @@ namespace Je
 	{
 	}
 
-	LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+	LRESULT CALLBACK WndProc(
+		HWND hwnd, const UINT umsg, const 
+		WPARAM wparam, const LPARAM lparam)
 	{
-		switch (uMsg)
+		switch (umsg)
 		{
 		case WM_QUIT:
 		case WM_DESTROY:
 		case WM_CLOSE:
-			PostQuitMessage(0);
 			break;
 		default:
-			return DefWindowProc(hWnd, uMsg, wParam, lParam);
+			return DefWindowProc(hwnd, umsg, wparam, lparam);
 		}
 		return 0;
 	}

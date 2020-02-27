@@ -5,6 +5,8 @@
 
 namespace Je
 {
+	LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+	
 	class WinWindow : public Window
 	{
 	public:
@@ -17,7 +19,7 @@ namespace Je
 		bool IsVSync() const override { return _data.VSync; }
 	
 	protected:
-		virtual void Init(const WindowProperties& properties);
+		virtual void Init();
 		virtual void Shutdown();
 	
 	private:
