@@ -9,8 +9,9 @@ namespace Je
 	{
 		_hwnd = nullptr;
 		_state = new WinState();
-		_state->SetCallback([]() 
+		_state->SetCallback([this](const UINT* const umsg)
 		{
+				return WinWindow::OnWindowCallback(umsg);
 		});
 
 		_data.Title = properties.Title;
@@ -65,24 +66,26 @@ namespace Je
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-
-			if (msg.message == WM_QUIT) 
-			{
-				//bDone = TRUE;
-			}
 		}
 		else
 		{
-			/* do rendering here */
+			/* Rendering Staff */
 		}
+
+		Sleep(1);
 	}
 
 	void WinWindow::Shutdown()
 	{
 	}
 
-	void WinWindow::OnWindowCallback(const UINT umsg)
+	bool WinWindow::OnWindowCallback(const UINT* const umsg)
 	{
+		return false;
+		/*switch (*umsg)
+		{
+		case WM_CLOSE: break;
+		}*/
 	}
 
 	inline WinState* GetAppState(HWND hwnd)
@@ -93,6 +96,13 @@ namespace Je
 		return state;
 	}
 
+	inline void SetAppState(HWND hwnd, const LPARAM lparam)
+	{
+		CREATESTRUCT* pCreate = reinterpret_cast<CREATESTRUCT*>(lparam);
+		WinState* state = reinterpret_cast<WinState*>(pCreate->lpCreateParams);
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)state);
+	}
+
 	LRESULT CALLBACK WndProc(
 		HWND hwnd, const UINT umsg, const 
 		WPARAM wparam, const LPARAM lparam)
@@ -101,25 +111,17 @@ namespace Je
 
 		if (umsg == WM_CREATE)
 		{
-			CREATESTRUCT* pCreate = reinterpret_cast<CREATESTRUCT*>(lparam);
-			state = reinterpret_cast<WinState*>(pCreate->lpCreateParams);
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)state);
+			SetAppState(hwnd, lparam);
 		}
 		else
 		{
 			state = GetAppState(hwnd);
-			state->WndProcCallback();
+
+			if (state != nullptr && 
+					state->WndProcCallback((UINT*)&umsg))
+				return 0;
 		}
 
-		switch (umsg)
-		{
-		case WM_QUIT:
-		case WM_DESTROY:
-		case WM_CLOSE:
-			break;
-		default:
-			return DefWindowProc(hwnd, umsg, wparam, lparam);
-		}
-		return 0;
+		return DefWindowProc(hwnd, umsg, wparam, lparam);
 	}
 }

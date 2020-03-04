@@ -9,7 +9,7 @@ namespace Je
 
 	struct WinState 
 	{
-		using WindowCallback = std::function<void()>;
+		using WindowCallback = std::function<bool(const UINT* const umsg)>;
 
 		WindowCallback WndProcCallback;
 		void SetCallback(const WindowCallback callback) { WndProcCallback = callback; }
@@ -30,7 +30,7 @@ namespace Je
 	protected:
 		virtual void Init();
 		virtual void Shutdown();
-		virtual void OnWindowCallback(const UINT umsg);
+		virtual bool OnWindowCallback(const UINT* const umsg);
 	
 	private:
 
