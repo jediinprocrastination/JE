@@ -1,5 +1,8 @@
 #include "Jepch.h"
 
+#include "GL/glew.h"
+#include "GL/gl.h"
+
 #include "Je/Window.h"
 #include "WinWindow.h"
 
@@ -9,9 +12,10 @@ namespace Je
 	{
 		_hwnd = nullptr;
 		_state = new WinState();
-		_state->SetCallback([this](const UINT* const umsg)
+		
+		_state->SetCallback([this](const HWND* hwnd, const UINT* umsg)
 		{
-				return WinWindow::OnWindowCallback(umsg);
+				return WinWindow::OnWindowCallback(hwnd, umsg);
 		});
 
 		_data.Title = properties.Title;
@@ -70,8 +74,15 @@ namespace Je
 		else
 		{
 			/* Rendering Staff */
+			/* Just simple example */
+			glClearColor(0.129f, 0.586f, 0.949f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
+			
+			SwapBuffers(_dc);
 		}
 
+		/* FPS control */
+		/* Will be replaced with something meaningful */
 		Sleep(1);
 	}
 
@@ -79,13 +90,62 @@ namespace Je
 	{
 	}
 
-	bool WinWindow::OnWindowCallback(const UINT* const umsg)
+	bool WinWindow::OnWindowCallback(const HWND* hwnd, const UINT* umsg)
 	{
+		if (*umsg == WM_CREATE)			return WinWindow::InitializeGraphicContext(hwnd);
+		if (*umsg == WM_SHOWWINDOW)	return false;
+		if (*umsg == WM_CLOSE)			return false;
+		
 		return false;
-		/*switch (*umsg)
+	}
+
+	bool WinWindow::InitializeGraphicContext(const HWND* hwnd)
+	{
+		PIXELFORMATDESCRIPTOR pfd =
 		{
-		case WM_CLOSE: break;
-		}*/
+			sizeof(PIXELFORMATDESCRIPTOR),
+			1,
+			PFD_DRAW_TO_WINDOW | 
+			PFD_SUPPORT_OPENGL | 
+			PFD_DOUBLEBUFFER,     // Flags
+			PFD_TYPE_RGBA,        // The kind of framebuffer. RGBA or palette.
+			32,                   // Colordepth of the framebuffer.
+			0, 0, 0, 0, 0, 0,
+			0,
+			0,
+			0,
+			0, 0, 0, 0,
+			24,                   // Number of bits for the depthbuffer
+			8,                    // Number of bits for the stencilbuffer
+			0,                    // Number of Aux buffers in the framebuffer.
+			PFD_MAIN_PLANE,
+			0,
+			0, 0, 0
+		};
+
+		_dc = GetDC(*hwnd);
+		int pfdID = ChoosePixelFormat(_dc, &pfd);
+		
+		if (pfdID == 0) return false;
+		if (SetPixelFormat(_dc, pfdID, &pfd) == false) return false;
+
+		_context = wglCreateContext(_dc);
+		wglMakeCurrent(_dc, _context);
+
+		auto result = glewInit();
+		
+		if (result != GLEW_OK)
+		{
+			auto message = glewGetErrorString(result);
+			fprintf(stderr, "Error: %s\n", message);
+			return false;
+		}
+		else
+		{
+			auto version = glGetString(GL_VERSION);
+			fprintf(stdout, "OpenGL version: %s\n", version);
+			return true;
+		}
 	}
 
 	inline WinState* GetAppState(HWND hwnd)
@@ -113,15 +173,13 @@ namespace Je
 		{
 			SetAppState(hwnd, lparam);
 		}
-		else
-		{
-			state = GetAppState(hwnd);
+		
+		state = GetAppState(hwnd);
 
-			if (state != nullptr && 
-					state->WndProcCallback((UINT*)&umsg))
-				return 0;
-		}
-
-		return DefWindowProc(hwnd, umsg, wparam, lparam);
+		return 
+			(state != nullptr && 
+			 state->WndProcCallback((HWND*)&hwnd, (UINT*)&umsg))
+				? 0 
+				: DefWindowProc(hwnd, umsg, wparam, lparam);
 	}
 }

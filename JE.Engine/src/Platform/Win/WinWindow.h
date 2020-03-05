@@ -9,7 +9,7 @@ namespace Je
 
 	struct WinState 
 	{
-		using WindowCallback = std::function<bool(const UINT* const umsg)>;
+		using WindowCallback = std::function<bool(const HWND* hwnd, const UINT* const umsg)>;
 
 		WindowCallback WndProcCallback;
 		void SetCallback(const WindowCallback callback) { WndProcCallback = callback; }
@@ -30,9 +30,10 @@ namespace Je
 	protected:
 		virtual void Init();
 		virtual void Shutdown();
-		virtual bool OnWindowCallback(const UINT* const umsg);
+		virtual bool OnWindowCallback(const HWND* hwnd, const UINT* umsg);
 	
 	private:
+		bool InitializeGraphicContext(const HWND* hwnd);
 
 		struct WinData
 		{
@@ -43,7 +44,9 @@ namespace Je
 		};
 
 		WinData _data;
-		WinState *_state;
+		WinState* _state;
 		HWND _hwnd;
+		HDC _dc;
+		HGLRC _context;
 	};
 }
