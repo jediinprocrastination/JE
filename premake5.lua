@@ -1,6 +1,6 @@
 
 workspace "Je"
-    architecture "x86"
+    architecture "x64"
 
     configurations
     {
@@ -24,7 +24,7 @@ workspace "Je"
             "%{prj.name}/src/**.cpp"
         }
 
-        include
+        includedirs
         {
             "dependencies/GLEW/include"
         }
@@ -62,7 +62,7 @@ workspace "Je"
             "%{prj.name}/src/**.cpp"
         }
 
-        include
+        includedirs
         {
             "Je.Engine/src"
         }
