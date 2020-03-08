@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -10,48 +10,28 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\Je.h" />
-    <ClInclude Include="src\Jepch.h" />
-    <ClInclude Include="src\Je\Application.h" />
-    <ClInclude Include="src\Je\Core.h" />
-    <ClInclude Include="src\Je\EntryPoint.h" />
-    <ClInclude Include="src\Je\Events\Event.h" />
-    <ClInclude Include="src\Je\Window.h" />
-    <ClInclude Include="src\Platform\Win\WinWindow.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\Jepch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\Je\Application.cpp" />
-    <ClCompile Include="src\Je\Window.cpp" />
-    <ClCompile Include="src\Platform\Win\WinWindow.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{D647297B-92FF-4010-A3E6-2FB7196AB24C}</ProjectGuid>
-    <RootNamespace>JEEngine</RootNamespace>
+    <ProjectGuid>{78DFF951-E449-AEC8-2D88-5F6E99318C1D}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Je.Engine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="Shared">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -62,51 +42,84 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
-    <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\</OutDir>
+    <OutDir>..\bin\Debug-x64\</OutDir>
+    <IntDir>..\bin-int\Debug-x64\Je.Engine\</IntDir>
+    <TargetName>Je.Engine</TargetName>
+    <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\bin\Release-x64\</OutDir>
+    <IntDir>..\bin-int\Release-x64\Je.Engine\</IntDir>
+    <TargetName>Je.Engine</TargetName>
+    <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>JE_PLATFORM_WIN;JE_BUILD;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Jepch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLEW\include;src</AdditionalIncludeDirectories>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>JE_PLATFORM_WIN;JE_BUILD;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\dependencies\GLEW\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32.lib;Gdi32.lib;Opengl32.lib;User32.lib;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLEW\lib\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Gdi32.lib;Opengl32.lib;User32.lib;..\dependencies\GLEW\lib\glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImportLibrary>..\bin\Debug-x64\Je.Engine.lib</ImportLibrary>
     </Link>
-    <PreBuildEvent>
-      <Command>xcopy $(SolutionDir)Dependencies\GLEW\bin\*.* $(OutputPath) /s /y</Command>
-    </PreBuildEvent>
-    <PreBuildEvent>
-      <Message>Copy binary dependencies to the output folder</Message>
-    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>IF EXIST $(SolutionDir)dependencies\GLEW\bin\glew32.dll\ (xcopy /Q /E /Y /I $(SolutionDir)dependencies\GLEW\bin\glew32.dll $(SolutionDir)bin\Debug-x64 &gt; nul) ELSE (xcopy /Q /Y /I $(SolutionDir)dependencies\GLEW\bin\glew32.dll $(SolutionDir)bin\Debug-x64 &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>Jepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>JE_PLATFORM_WIN;JE_BUILD;RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\dependencies\GLEW\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Gdi32.lib;Opengl32.lib;User32.lib;..\dependencies\GLEW\lib\glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImportLibrary>..\bin\Release-x64\Je.Engine.lib</ImportLibrary>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST $(SolutionDir)dependencies\GLEW\bin\glew32.dll\ (xcopy /Q /E /Y /I $(SolutionDir)dependencies\GLEW\bin\glew32.dll $(SolutionDir)bin\Release-x64 &gt; nul) ELSE (xcopy /Q /Y /I $(SolutionDir)dependencies\GLEW\bin\glew32.dll $(SolutionDir)bin\Release-x64 &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Je.h" />
+    <ClInclude Include="src\Je\Application.h" />
+    <ClInclude Include="src\Je\Core.h" />
+    <ClInclude Include="src\Je\EntryPoint.h" />
+    <ClInclude Include="src\Je\Events\Event.h" />
+    <ClInclude Include="src\Je\Window.h" />
+    <ClInclude Include="src\Jepch.h" />
+    <ClInclude Include="src\Platform\Win\WinWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Je\Application.cpp" />
+    <ClCompile Include="src\Je\Window.cpp" />
+    <ClCompile Include="src\Jepch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Win\WinWindow.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

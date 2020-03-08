@@ -15,7 +15,7 @@ namespace Je
 		
 		_state->SetCallback([this](const HWND* hwnd, const UINT* umsg)
 		{
-				return WinWindow::OnWindowCallback(hwnd, umsg);
+			return WinWindow::OnWindowCallback(hwnd, umsg);
 		});
 
 		_data.Title = properties.Title;

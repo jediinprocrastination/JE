@@ -1,6 +1,12 @@
 
 workspace "Je"
     architecture "x64"
+    
+    architectureCode = "x64"
+    outputdir = "%{cfg.buildcfg}-%{architectureCode}"
+    outputpath = ("bin/" .. outputdir)
+
+    glewdir = "dependencies/GLEW/"
 
     configurations
     {
@@ -8,15 +14,20 @@ workspace "Je"
         "Release"
     }
 
-    outputdir = "%{cfg.buildcfg}-%{cfg.architecture}"
+    startproject "Je.Playground"
 
     project "Je.Engine"
         location "Je.Engine"
         kind "SharedLib"
         language "C++"
+        cppdialect "C++17"
+        staticruntime "On"
 
-        targetdir ("bin/" .. outputdir)
+        targetdir "%{outputpath}"
         objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+        pchheader "Jepch.h"
+        pchsource "Je.Engine/src/Jepch.cpp"
 
         files
         {
@@ -26,18 +37,30 @@ workspace "Je"
 
         includedirs
         {
-            "dependencies/GLEW/include"
+            "%{glewdir}include",
+            "%{prj.name}/src"
         }
 
         filter "system:windows"
-            cppdialect "C++17"
-            staticruntime "On"
             systemversion "latest"
 
             defines
             {
                 "JE_PLATFORM_WIN",
                 "JE_BUILD"
+            }
+
+            links
+            {
+                "Gdi32.lib",
+                "Opengl32.lib",
+                "User32.lib",
+                "%{wks.location}/%{glewdir}lib/glew32.lib"
+            }
+
+            postbuildcommands
+            {
+                ("{COPY} %{wks.location}%{glewdir}/bin/glew32.dll %{wks.location}%{outputpath}")
             }
 
         filter "configurations:Debug"
@@ -52,6 +75,8 @@ workspace "Je"
         location "Je.Playground"
         kind "ConsoleApp"
         language "C++"
+        cppdialect "C++17"
+        staticruntime "On"
 
         targetdir ("bin/" .. outputdir)
         objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -73,8 +98,6 @@ workspace "Je"
         }
 
         filter "system:windows"
-            cppdialect "C++17"
-            staticruntime "On"
             systemversion "latest"
 
             defines
