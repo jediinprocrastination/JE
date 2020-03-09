@@ -10,7 +10,7 @@ namespace Je
 		Application();
 		virtual ~Application();
 
-		void Run();
+		static void Run();
 	};
 
 	Application* CreateApplication();
