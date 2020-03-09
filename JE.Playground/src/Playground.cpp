@@ -1,5 +1,6 @@
 
 #include <Je.h>
+#include <Je/EntryPoint.h>
 
 namespace Pg
 {

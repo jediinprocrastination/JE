@@ -6,7 +6,8 @@ workspace "Je"
     outputdir = "%{cfg.buildcfg}-%{architectureCode}"
     outputpath = ("bin/" .. outputdir)
 
-    glewdir = "dependencies/GLEW/"
+    glewdir = "dependencies/glew/"
+    spdlogdir = "dependencies/spdlog/"
 
     configurations
     {
@@ -38,8 +39,8 @@ workspace "Je"
         includedirs
         {
             "%{glewdir}include",
-            "%{prj.name}/src",
-            "%{prj.name}/vendor/spdlog/include"
+            "%{spdlogdir}include",
+            "%{prj.name}/src"
         }
 
         filter "system:windows"
@@ -92,6 +93,7 @@ workspace "Je"
 
         includedirs
         {
+            "%{spdlogdir}include",
             "Je.Engine/src"
         }
 

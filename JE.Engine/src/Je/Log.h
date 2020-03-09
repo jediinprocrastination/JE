@@ -1,29 +1,37 @@
 #pragma once
 
 #include "Jepch.h"
-
-#include "spdlog/spdlog.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
+#include <spdlog\spdlog.h>
 
 namespace Je
 {
 	class Log
 	{
 	public:
-		static void Init()
+		template<typename T>
+		inline static void Info(const T& message)
 		{
-			spdlog::set_pattern("%^[%T] %n: %v%$");
-			_coreLogger = spdlog::stdout_color_mt("Je");
+			spdlog::set_pattern(PATTERN);
+			spdlog::info(message);
 		}
 
-		static std::shared_ptr<spdlog::logger>& GetLogger()
+		template<typename... Args>
+		inline static void Info(std::string message, const Args&... args)
 		{
-			return _coreLogger;
+			spdlog::set_pattern(PATTERN);
+			spdlog::info(message, args...);
 		}
-		
+
+		template<typename... Args>
+		inline static void Error(std::string message, const Args&... args)
+		{
+			spdlog::set_pattern(PATTERN);
+			spdlog::error(message, args...);
+		}
+
 	private:
-		static std::shared_ptr<spdlog::logger> _coreLogger;
+		static const std::string PATTERN;
 	};
-}
 
-#define JE_INFO(...) ::Je::Log::GetLogger()->info(__VA_ARGS__);
+	const std::string Log::PATTERN = "%^[%T] %v%$";
+}

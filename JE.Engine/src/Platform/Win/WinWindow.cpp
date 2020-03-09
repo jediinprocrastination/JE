@@ -4,6 +4,7 @@
 #include "GL/gl.h"
 
 #include "Je/Window.h"
+#include "Je/Log.h"
 #include "WinWindow.h"
 
 namespace Je
@@ -23,7 +24,6 @@ namespace Je
 		_data.Width = properties.Width;
 
 		WinWindow::Init();
-		JE_INFO("Hi!");
 	}
 	
 	WinWindow::~WinWindow()
@@ -137,18 +137,14 @@ namespace Je
 		
 		if (result != GLEW_OK)
 		{
-			auto message = glewGetErrorString(result);
-			//Log::Error("Error: {0}\n", message);
-			fprintf(stderr, "Error: %s\n", message);
+			auto message = (char*)glewGetErrorString(result);
+			Log::Error("Error: {0}", message);
 			return false;
 		}
-		else
-		{
-			auto version = glGetString(GL_VERSION);
-			//Log::Info("OpenGL version");
-			fprintf(stdout, "OpenGL version: %s\n", version);
-			return true;
-		}
+		
+		auto version = (char*)glGetString(GL_VERSION);
+		Log::Info("OpenGL version: {0}", version);
+		return true;
 	}
 
 	inline WinState* GetAppState(HWND hwnd)

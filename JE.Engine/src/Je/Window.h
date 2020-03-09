@@ -13,7 +13,7 @@ namespace Je
 		unsigned int Width;
 
 		WindowProperties(
-			std::string title		= "Je window",
+			std::string title	= "Je window",
 			unsigned int height = 720, 
 			unsigned int width	= 1280)
 			
