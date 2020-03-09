@@ -21,7 +21,7 @@ workspace "Je"
         kind "SharedLib"
         language "C++"
         cppdialect "C++17"
-        staticruntime "On"
+        staticruntime "Off"
 
         targetdir "%{outputpath}"
         objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -79,7 +79,7 @@ workspace "Je"
         kind "ConsoleApp"
         language "C++"
         cppdialect "C++17"
-        staticruntime "On"
+        staticruntime "Off"
 
         targetdir ("bin/" .. outputdir)
         objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
