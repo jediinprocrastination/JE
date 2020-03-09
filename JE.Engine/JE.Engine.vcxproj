@@ -110,14 +110,13 @@
     <ClInclude Include="src\Je\Core.h" />
     <ClInclude Include="src\Je\EntryPoint.h" />
     <ClInclude Include="src\Je\Events\Event.h" />
-    <ClInclude Include="src\Je\Log\Log.h" />
+    <ClInclude Include="src\Je\Log.h" />
     <ClInclude Include="src\Je\Window.h" />
     <ClInclude Include="src\Jepch.h" />
     <ClInclude Include="src\Platform\Win\WinWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Je\Application.cpp" />
-    <ClCompile Include="src\Je\Log\Log.cpp" />
     <ClCompile Include="src\Je\Window.cpp" />
     <ClCompile Include="src\Jepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

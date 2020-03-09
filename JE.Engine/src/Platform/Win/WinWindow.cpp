@@ -23,6 +23,7 @@ namespace Je
 		_data.Width = properties.Width;
 
 		WinWindow::Init();
+		JE_INFO("Hi!");
 	}
 	
 	WinWindow::~WinWindow()
@@ -92,7 +93,7 @@ namespace Je
 
 	bool WinWindow::OnWindowCallback(const HWND* hwnd, const UINT* umsg)
 	{
-		if (*umsg == WM_CREATE)			return WinWindow::InitializeGraphicContext(hwnd);
+		if (*umsg == WM_CREATE)			return InitializeGraphicContext(hwnd);
 		if (*umsg == WM_SHOWWINDOW)	return false;
 		if (*umsg == WM_CLOSE)			return false;
 		
@@ -137,14 +138,14 @@ namespace Je
 		if (result != GLEW_OK)
 		{
 			auto message = glewGetErrorString(result);
-			//Log::Warn(message);
+			//Log::Error("Error: {0}\n", message);
 			fprintf(stderr, "Error: %s\n", message);
 			return false;
 		}
 		else
 		{
 			auto version = glGetString(GL_VERSION);
-			//Log::Warn(version);
+			//Log::Info("OpenGL version");
 			fprintf(stdout, "OpenGL version: %s\n", version);
 			return true;
 		}

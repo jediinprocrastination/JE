@@ -12,7 +12,7 @@ namespace Je
 #ifdef JE_PLATFORM_WIN
 	Window* Window::Create(const WindowProperties& properties)
 	{
-		return new Je::WinWindow(properties);
+		return new WinWindow(properties);
 	}
 #else
 #error Windows only!
