@@ -60,10 +60,11 @@
       <PrecompiledHeaderFile>Jepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>JE_PLATFORM_WIN;JE_BUILD;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\dependencies\GLEW\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\dependencies\GLEW\include;src;vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -82,13 +83,14 @@
       <PrecompiledHeaderFile>Jepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>JE_PLATFORM_WIN;JE_BUILD;RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\dependencies\GLEW\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\dependencies\GLEW\include;src;vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -108,12 +110,14 @@
     <ClInclude Include="src\Je\Core.h" />
     <ClInclude Include="src\Je\EntryPoint.h" />
     <ClInclude Include="src\Je\Events\Event.h" />
+    <ClInclude Include="src\Je\Log\Log.h" />
     <ClInclude Include="src\Je\Window.h" />
     <ClInclude Include="src\Jepch.h" />
     <ClInclude Include="src\Platform\Win\WinWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Je\Application.cpp" />
+    <ClCompile Include="src\Je\Log\Log.cpp" />
     <ClCompile Include="src\Je\Window.cpp" />
     <ClCompile Include="src\Jepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

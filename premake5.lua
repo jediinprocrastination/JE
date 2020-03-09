@@ -38,7 +38,8 @@ workspace "Je"
         includedirs
         {
             "%{glewdir}include",
-            "%{prj.name}/src"
+            "%{prj.name}/src",
+            "%{prj.name}/vendor/spdlog/include"
         }
 
         filter "system:windows"
@@ -65,10 +66,12 @@ workspace "Je"
 
         filter "configurations:Debug"
             defines "DEBUG"
+            buildoptions "/MDd"
             symbols "On"
 
         filter "configurations:Release"
             defines "RELEASE"
+            buildoptions "/MD"
             optimize "On"
 
     project "Je.Playground"
@@ -107,8 +110,10 @@ workspace "Je"
 
         filter "configurations:Debug"
             defines "DEBUG"
+            buildoptions "/MDd"
             symbols "On"
 
         filter "configurations:Release"
             defines "RELEASE"
+            buildoptions "/MD"
             optimize "On"

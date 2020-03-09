@@ -4,5 +4,8 @@
 /bin/
 /bin-int/
 
-**/*.filters
-**/*.user
+.vs/
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user
