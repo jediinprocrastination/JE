@@ -138,12 +138,12 @@ namespace Je
 		if (result != GLEW_OK)
 		{
 			auto message = (char*)glewGetErrorString(result);
-			Log::Error("Error: {0}", message);
+			//Log::Error("Error: {0}", message);
 			return false;
 		}
 		
 		auto version = (char*)glGetString(GL_VERSION);
-		Log::Info("OpenGL version: {0}", version);
+		Log::Info("OpenGL version: %s", version);
 		return true;
 	}
 

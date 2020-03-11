@@ -1,37 +1,29 @@
 #pragma once
 
 #include "Jepch.h"
-#include <spdlog\spdlog.h>
+#include <Je.Log.h>
 
 namespace Je
 {
 	class Log
 	{
 	public:
-		template<typename T>
-		inline static void Info(const T& message)
+		inline static void Info(const std::string message)
 		{
-			spdlog::set_pattern(PATTERN);
-			spdlog::info(message);
+			GetLogger()->Info((std::string*)&message);
 		}
 
-		template<typename... Args>
-		inline static void Info(std::string message, const Args&... args)
+		template<typename... T>
+		inline static void Info(std::string message, const T&... args)
 		{
-			spdlog::set_pattern(PATTERN);
-			spdlog::info(message, args...);
+			GetLogger()->Info(&message, (args)...);
 		}
-
-		template<typename... Args>
-		inline static void Error(std::string message, const Args&... args)
-		{
-			spdlog::set_pattern(PATTERN);
-			spdlog::error(message, args...);
-		}
-
+	
 	private:
-		static const std::string PATTERN;
+		inline static Logger* GetLogger()
+		{
+			static Logger s_logger;
+			return &s_logger;
+		}
 	};
-
-	const std::string Log::PATTERN = "%^[%T] %v%$";
 }
