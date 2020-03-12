@@ -7,8 +7,7 @@ workspace "Je"
     outputpath = ("bin/" .. outputdir)
 
     glewdir = "dependencies/glew/"
-    sharedlibsdir = "%{wks.location}/Je.Shared/libs";
-    sharedhdir = "%{wks.location}/Je.Shared/h";
+    --sharedlibsdir = "%{wks.location}/Je.Shared/libs";
 
     configurations
     {
@@ -41,13 +40,12 @@ workspace "Je"
         {
             "%{glewdir}include",
             "%{prj.name}/src",
-            --"%{sharedhdir}"
             "Je.Log/src"
         }
 
         libdirs
         {
-            "%{sharedlibsdir}"
+            "%{outputpath}"
         }
 
         links
@@ -70,7 +68,6 @@ workspace "Je"
                 "Opengl32.lib",
                 "User32.lib",
                 "%{wks.location}/%{glewdir}lib/glew32.lib",
-                "Je.Log"
             }
 
             postbuildcommands
@@ -106,13 +103,12 @@ workspace "Je"
 
         libdirs
         {
-            "%{sharedlibsdir}"
+            "%{outputpath}"
         }
 
         postbuildcommands
         {
-            ("{COPY} %{wks.location}%{outputpath}/%{prj.name}.lib %{sharedlibsdir}"),
-            ("quom %{wks.location}%{prj.name}/src/%{prj.name}.h %{sharedhdir}/%{prj.name}.h")
+            --("{COPY} %{wks.location}%{outputpath}/%{prj.name}.lib %{sharedlibsdir}")
         }
 
         filter "system:windows"
@@ -158,7 +154,7 @@ workspace "Je"
 
         libdirs
         {
-            "%{wks.location}/Je.Shared/libs/"
+            "%{outputpath}"
         }
 
         links
