@@ -138,12 +138,16 @@ namespace Je
 		if (result != GLEW_OK)
 		{
 			auto message = (char*)glewGetErrorString(result);
-			//Log::Error("Error: {0}", message);
+
+			ERROR("Failed to initialize graphic context (%s).", message);
 			return false;
 		}
 		
 		auto version = (char*)glGetString(GL_VERSION);
-		Log::Info("OpenGL version: %s", version);
+		
+		INFO("Graphic context is successfully initialized.");
+		INFO("OpenGL version: %s", version);
+		
 		return true;
 	}
 
