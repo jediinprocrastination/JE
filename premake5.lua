@@ -7,7 +7,6 @@ workspace "Je"
     outputpath = ("bin/" .. outputdir)
 
     glewdir = "dependencies/glew/"
-    --sharedlibsdir = "%{wks.location}/Je.Shared/libs";
 
     configurations
     {
