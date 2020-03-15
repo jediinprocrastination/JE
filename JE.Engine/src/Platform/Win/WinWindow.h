@@ -7,9 +7,9 @@ namespace Je
 {
 	LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-	struct WinState 
+	struct WinState
 	{
-		using WindowCallback = std::function<bool(const HWND* hwnd, const UINT* const umsg)>;
+		using WindowCallback = std::function<bool(const HWND* hwnd, const UINT* umsg, const LPARAM* lparam)>;
 
 		WindowCallback WndProcCallback;
 		void SetCallback(const WindowCallback callback) { WndProcCallback = callback; }
@@ -30,10 +30,11 @@ namespace Je
 	protected:
 		virtual void Init();
 		virtual void Shutdown();
-		virtual bool OnWindowCallback(const HWND* hwnd, const UINT* umsg);
+		virtual bool OnWindowCallback(const HWND* hwnd, const UINT* umsg, const LPARAM* lparam);
 	
 	private:
 		bool InitializeGraphicContext(const HWND* hwnd);
+		bool ProcessMouseMoveWindowCallback(const HWND* hwnd, const LPARAM* lparam);
 
 		struct WinData
 		{

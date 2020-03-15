@@ -5,6 +5,7 @@
 
 #include "Je/Window.h"
 #include "Je/Log.h"
+#include "Je/Events/MouseEvent.h"
 #include "WinWindow.h"
 
 namespace Je
@@ -14,9 +15,9 @@ namespace Je
 		_hwnd = nullptr;
 		_state = new WinState();
 		
-		_state->SetCallback([this](const HWND* hwnd, const UINT* umsg)
+		_state->SetCallback([this](const HWND* hwnd, const UINT* umsg, const LPARAM* lparam)
 		{
-			return WinWindow::OnWindowCallback(hwnd, umsg);
+			return WinWindow::OnWindowCallback(hwnd, umsg, lparam);
 		});
 
 		_data.Title = properties.Title;
@@ -91,11 +92,12 @@ namespace Je
 	{
 	}
 
-	bool WinWindow::OnWindowCallback(const HWND* hwnd, const UINT* umsg)
+	bool WinWindow::OnWindowCallback(const HWND* hwnd, const UINT* umsg, const LPARAM* lparam)
 	{
 		if (*umsg == WM_CREATE)			return InitializeGraphicContext(hwnd);
 		if (*umsg == WM_SHOWWINDOW)	return false;
 		if (*umsg == WM_CLOSE)			return false;
+		if (*umsg == WM_MOUSEMOVE)	return ProcessMouseMoveWindowCallback(hwnd, lparam);
 		
 		return false;
 	}
@@ -151,6 +153,21 @@ namespace Je
 		return true;
 	}
 
+	bool WinWindow::ProcessMouseMoveWindowCallback(const HWND* hwnd, const LPARAM* lparam)
+	{
+		POINT position;
+		
+		GetCursorPos(&position);
+		ScreenToClient(*hwnd, &position);
+
+		//WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+		MouseMoveEvent event((float)position.x, (float)position.y);
+		_data.EventCallback(event);
+
+		return false;
+	}
+
 	inline WinState* GetAppState(HWND hwnd)
 	{
 		LONG_PTR ptr = GetWindowLongPtr(hwnd, GWLP_USERDATA);
@@ -181,7 +198,7 @@ namespace Je
 
 		return 
 			(state != nullptr && 
-			 state->WndProcCallback((HWND*)&hwnd, (UINT*)&umsg))
+			 state->WndProcCallback((HWND*)&hwnd, (UINT*)&umsg, &lparam))
 				? 0 
 				: DefWindowProc(hwnd, umsg, wparam, lparam);
 	}

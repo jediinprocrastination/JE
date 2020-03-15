@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Je/Events/Event.h"
 #include "Core.h"
 
 namespace Je
@@ -11,6 +12,9 @@ namespace Je
 		virtual ~Application();
 
 		static void Run();
+
+	private:
+		static void OnEventCallback(const Event& event);
 	};
 
 	Application* CreateApplication();

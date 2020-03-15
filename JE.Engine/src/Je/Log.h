@@ -50,14 +50,14 @@ namespace Je
 	};
 }
 
-#ifndef _INFO
+#ifndef INFO
 #define INFO(...) { Je::Log::Info(__VA_ARGS__); }
 #endif // !_INFO
 
-#ifndef _WARN
+#ifndef WARN
 #define WARN(...) { Je::Log::Warn(__VA_ARGS__); }
 #endif // !_WARN
 
-#ifndef _ERROR
+#ifndef ERROR
 #define ERROR(...) { Je::Log::Error(__VA_ARGS__); }
 #endif // !_ERROR
